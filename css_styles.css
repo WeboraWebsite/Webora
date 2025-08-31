@@ -9,8 +9,8 @@
   --glass-bg: rgba(255, 255, 255, 0.85);  /* Slightly transparent white background */
   --glass-border: rgba(0, 0, 0, 0.15);  /* Subtle border */
   --glass-highlight: rgba(0, 0, 0, 0.05);  /* Subtle highlight */
-  --shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.05);
-  --shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.08);  /* Standardized opacity to 0.08 */
+  --shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.15);  /* Standardized opacity to 0.15 */
   --border-radius: 22px;
   --border-radius-sm: 10px;
   --font-heading: 'Poppins', sans-serif;
@@ -42,8 +42,8 @@
   --glass-bg: rgba(45, 45, 45, 0.85);  /* Slightly transparent dark glass background */
   --glass-border: rgba(255, 255, 255, 0.15);  /* More visible white border */
   --glass-highlight: rgba(255, 255, 255, 0.1);  /* Slightly more visible highlight */
-  --shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.2);
-  --shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.3);
+  --shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.25);  /* Increased opacity for dark mode */
+  --shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.35);  /* Increased opacity for dark mode */
   /* Header colors in dark mode */
   --header-bg: #121212;  /* Still dark header but slightly lighter */
   --header-text: #ffffff;
@@ -51,6 +51,22 @@
   --toggle-bg: #ffffff;
   --toggle-border: rgba(0, 0, 0, 0.2);
   --toggle-icon: #1a1a1a;
+}
+
+/* Fix button styles to use CSS variables consistently */
+.btn-primary, button[type="submit"] {
+  background: var(--header-bg);  /* Use header-bg variable instead of hardcoded color */
+  color: var(--header-text) !important;
+  border: 1px solid var(--glass-border);
+}
+
+/* Fix theme toggle and home button to use variables consistently */
+.theme-toggle,
+.home-btn {
+  background: var(--header-bg);
+  border: 1px solid var(--toggle-border);
+  color: var(--header-text);
+  box-shadow: var(--shadow-subtle);
 }
 
 * {
@@ -66,30 +82,31 @@ html {
   scroll-padding-top: 80px;
   /* Prevent layout shift when menu opens */
   overflow-y: scroll;
+  width: 100vw;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Main content wrapper with no bottom padding */
-.page-wrapper {
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: 0; /* Remove bottom padding */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Plain white background */
+/* Prevent scrollbar shift */
 body {
   color: var(--text-primary);
   font-family: 'Poppins', sans-serif; /* Explicitly set font for body */
   font-weight: 300;
   line-height: 1.6;
   overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%)); /* Compensate for scrollbar */
   margin: 0;
   min-height: 100vh;
   background-color: var(--bg-primary);
   position: relative;
   /* Disable overscroll behavior */
   overscroll-behavior-y: none;
+  overflow-y: scroll !important; /* Always show scrollbar to prevent shift */
+}
+
+/* Modified no-scroll class */
+body.no-scroll {
+  overflow: hidden !important;
+  padding-right: 0 !important; /* Override any inline padding */
 }
 
 /* Animated network background */
@@ -272,7 +289,7 @@ header {
 
 header.expanded {
   height: 100vh;
-  background: rgba(26, 26, 26, 1);
+  background: rgba(26, 26, 26, 0.95); /* Match the nav transparency */
 }
 
 header.scrolled {
@@ -404,7 +421,8 @@ header.scrolled {
   visibility: hidden;
   transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1000;
-  backdrop-filter: blur(10px);
+  background: rgba(26, 26, 26, 0.95); /* Add semi-transparent background */
+  backdrop-filter: blur(15px); /* Increased blur for better readability */
 }
 
 .full-nav.active {
@@ -803,6 +821,29 @@ section.full-width {
   padding: var(--spacing-lg);
   position: relative;
   margin: 0 auto;
+}
+
+/* Page header responsive text adjustments */
+@media (max-width: 768px) {
+  .page-header-content .lead {
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0 var(--spacing-sm);
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header-content .lead {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  .page-header-content {
+    padding: var(--spacing-md);
+  }
 }
 
 /* ===== ABOUT CONTENT ===== */

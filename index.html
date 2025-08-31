@@ -472,7 +472,7 @@
     <div class="hero-content">
       <div class="hero-text-container glass">
         <h1 class="fade-in">Elevate Your Digital Presence Beyond Expectations</h1>
-        <p class="lead fade-in delay-1" style="text-align: center;">
+        <p class="lead fade-in delay-1">
           Webora is a Dubai-based creative web agency. We build sleek, modern websites with stunning design and effortless user experience. Simple. Smart. Effective.
         </p>
         <div class="fade-in delay-2" style="margin-top: 3rem;">
@@ -544,7 +544,7 @@
     <div class="content-container">
       <div class="about-cta-container fade-in">
         <h2>Want to Know More About Webora?</h2>
-        <p class="lead" style="text-align: center; white-space: nowrap; display: flex; align-items: center; justify-content: center; margin: 2rem auto 4rem auto; max-width: 100%;">Discover our story, values, and why clients choose us for their web development needs</p>
+       <p class="lead" style="text-align: center; margin-bottom: 4rem;">Discover our story, values, and why clients choose us for their web development needs.</p>
         <a href="about.html" class="btn-cta">
           <span class="btn-cta-text">Explore About Us</span>
           <span class="btn-cta-icon">→</span>
@@ -556,9 +556,9 @@
   <!-- Our Work Showcase Section - Full width -->
   <section class="work-showcase full-width">
     <div class="content-container">
-      <div class="showcase-content glass fade-in">
+      <div class="about-cta-container fade-in">
         <h2>Need More Convincing?</h2>
-        <p class="lead" style="text-align: center; margin-bottom: 0.5rem;">Explore our portfolio of successful projects that have helped businesses transform their digital presence.</p>
+        <p class="lead" style="text-align: center; margin-bottom: -4rem;">Explore our portfolio of successful projects that have helped businesses transform their digital presence.</p>
         
         <!-- Empty work preview - removed the three items -->
         <div class="work-preview">
@@ -753,6 +753,7 @@
   <!-- Load JS scripts - FIXED: removed duplicate script references -->
   <script src="js_scripts.js"></script>
   <script src="debug-logo.js"></script>
+  <script src="js/menuFix.js"></script>
   
   <!-- Direct Network Animation Script -->
   <script>
@@ -890,21 +891,21 @@
         const currentScrollY = window.pageYOffset;
         const scrollDelta = currentScrollY - lastScrollY;
         
-        // Calculate scroll velocity (how fast the user is scrolling)
-        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.1, 0.1);
+        // Reduced lerp factor for smoother initial velocity
+        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.08, 0.08);
         
         particles.forEach(particle => {
           const scrollEffect = scrollDelta * particle.scrollSensitivity * 0.08;
           
-          // Update target positions with horizontal drift
           particle.targetX += scrollEffect * (Math.random() - 0.5);
           
-          // Add vertical movement based on scroll velocity
           const verticalScrollEffect = scrollVelocity * particle.scrollSensitivity * 2;
           particle.targetY += verticalScrollEffect;
           particle.verticalOffset += verticalScrollEffect * 0.5;
           
-          // Keep targets within extended bounds for smooth wrapping
+          // Add more friction to vertical offset
+          particle.verticalOffset *= 0.85; // Increased friction (was 0.95)
+          
           const extendedWidth = window.innerWidth + 200;
           const extendedHeight = window.innerHeight + 200;
           
@@ -917,75 +918,6 @@
         lastScrollY = currentScrollY;
       }
       
-      // New function to drift particles back to viewport when scrolling stops
-      function driftToViewport() {
-        particles.forEach(particle => {
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-          
-          // Calculate distance from viewport center
-          const dx = centerX - particle.targetX;
-          const dy = centerY - particle.targetY;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          // Only apply drift if particle is far from viewport
-          if (distance > window.innerWidth * 0.3) {
-            const driftStrength = 0.002; // Gentle drift strength
-            particle.targetX += dx * driftStrength * particle.scrollSensitivity;
-            particle.targetY += dy * driftStrength * particle.scrollSensitivity;
-          }
-          
-          // Gradually reduce vertical offset when not scrolling
-          particle.verticalOffset *= 0.98;
-        });
-      }
-
-      // New gathering behavior after 4 seconds
-      let animationStartTime = Date.now();
-      let isGathering = false;
-      let gatheringStartTime = 0;
-      const gatheringDuration = 2000; // 2 seconds gathering
-      const waitTime = 4000; // Wait 4 seconds before gathering
-      
-      function handleGathering(currentTime) {
-        const elapsed = currentTime - animationStartTime;
-        
-        // Start gathering after 4 seconds
-        if (elapsed > waitTime && !isGathering) {
-          isGathering = true;
-          gatheringStartTime = currentTime;
-        }
-        
-        // During gathering phase (2 seconds)
-        if (isGathering && (currentTime - gatheringStartTime) < gatheringDuration) {
-          const gatherProgress = (currentTime - gatheringStartTime) / gatheringDuration;
-          const easeInOut = gatherProgress < 0.5 
-            ? 2 * gatherProgress * gatherProgress 
-            : 1 - Math.pow(-2 * gatherProgress + 2, 3) / 2;
-          
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-          
-          particles.forEach(particle => {
-            // Calculate pull towards center
-            const dx = centerX - particle.x;
-            const dy = centerY - particle.y;
-            
-            // Apply gathering force with easing
-            const gatherStrength = easeInOut * 0.05;
-            particle.targetX += dx * gatherStrength;
-            particle.targetY += dy * gatherStrength;
-          });
-        }
-        
-        // Reset gathering after it's complete
-        if (isGathering && (currentTime - gatheringStartTime) >= gatheringDuration) {
-          isGathering = false;
-          // Reset for next cycle (optional - remove these lines if you want it to happen only once)
-          animationStartTime = currentTime;
-        }
-      }
-
       // Optimized animation loop with enhanced visibility
       function animate(currentTime) {
         if (!isVisible) {
@@ -1002,15 +934,7 @@
         lastFrameTime = currentTime;
         
         // Decay scroll velocity
-        scrollVelocity *= 0.95;
-        
-        // Drift particles back to viewport when scrolling stops
-        if (Math.abs(scrollVelocity) < 0.1) {
-          driftToViewport();
-        }
-        
-        // Handle gathering behavior
-        handleGathering(currentTime);
+        scrollVelocity *= 0.85; // More friction (was 0.95)
         
         // Performance monitoring
         frameCount++;

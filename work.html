@@ -228,7 +228,7 @@
     <div class="page-header full-width">
       <div class="page-header-content fade-in contained-width">
         <h1>Our Work</h1>
-        <p class="lead" style="text-align: center;">Explore our portfolio of successful projects that showcase our capabilities</p>
+        <p class="lead">Explore our portfolio of successful projects that showcase our capabilities</p>
       </div>
     </div>
 
@@ -236,7 +236,7 @@
     <section class="portfolio-section">
       <div class="container">
         <h2 class="text-center fade-in">Featured Projects</h2>
-        <p class="lead text-center fade-in delay-1" style="text-align: center;">These are some of the projects we've delivered for our clients across different industries</p>
+        <p class="lead text-center fade-in delay-1">These are some of the projects we've delivered for our clients across different industries</p>
         
         <div class="portfolio-grid">
           <!-- Portfolio Item 1 -->
@@ -309,7 +309,7 @@
         <!-- Contact CTA -->
         <div class="contact-cta fade-in">
           <h2>Ready to Start Your Project?</h2>
-          <p class="lead" style="text-align: center;">Let's create something amazing together</p>
+          <p class="lead">Let's create something amazing together</p>
           <a href="index.html#contact" class="btn-cta" style="margin-top: 2rem;">
             <span class="btn-cta-text">Contact Us</span>
             <span class="btn-cta-icon">→</span>
@@ -518,7 +518,8 @@
         const currentScrollY = window.pageYOffset;
         const scrollDelta = currentScrollY - lastScrollY;
         
-        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.1, 0.1);
+        // Reduced lerp factor for smoother initial velocity
+        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.08, 0.08);
         
         particles.forEach(particle => {
           const scrollEffect = scrollDelta * particle.scrollSensitivity * 0.08;
@@ -528,6 +529,9 @@
           const verticalScrollEffect = scrollVelocity * particle.scrollSensitivity * 2;
           particle.targetY += verticalScrollEffect;
           particle.verticalOffset += verticalScrollEffect * 0.5;
+          
+          // Add more friction to vertical offset
+          particle.verticalOffset *= 0.85; // Increased friction (was 0.95)
           
           const extendedWidth = window.innerWidth + 200;
           const extendedHeight = window.innerHeight + 200;
@@ -539,66 +543,6 @@
         });
         
         lastScrollY = currentScrollY;
-      }
-      
-      // New function to drift particles back to viewport when scrolling stops
-      function driftToViewport() {
-        particles.forEach(particle => {
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-          
-          const dx = centerX - particle.targetX;
-          const dy = centerY - particle.targetY;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance > window.innerWidth * 0.3) {
-            const driftStrength = 0.002;
-            particle.targetX += dx * driftStrength * particle.scrollSensitivity;
-            particle.targetY += dy * driftStrength * particle.scrollSensitivity;
-          }
-          
-          particle.verticalOffset *= 0.98;
-        });
-      }
-
-      // New gathering behavior after 4 seconds
-      let animationStartTime = Date.now();
-      let isGathering = false;
-      let gatheringStartTime = 0;
-      const gatheringDuration = 2000;
-      const waitTime = 4000;
-      
-      function handleGathering(currentTime) {
-        const elapsed = currentTime - animationStartTime;
-        
-        if (elapsed > waitTime && !isGathering) {
-          isGathering = true;
-          gatheringStartTime = currentTime;
-        }
-        
-        if (isGathering && (currentTime - gatheringStartTime) < gatheringDuration) {
-          const gatherProgress = (currentTime - gatheringStartTime) / gatheringDuration;
-          const easeInOut = gatherProgress < 0.5 
-            ? 2 * gatherProgress * gatherProgress 
-            : 1 - Math.pow(-2 * gatherProgress + 2, 3) / 2;
-          
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-          
-          particles.forEach(particle => {
-            const dx = centerX - particle.x;
-            const dy = centerY - particle.y;
-            
-            const gatherStrength = easeInOut * 0.05;
-            particle.targetX += dx * gatherStrength;
-            particle.targetY += dy * gatherStrength;
-          });
-        }
-        
-        if (isGathering && (currentTime - gatheringStartTime) >= gatheringDuration) {
-          isGathering = false;
-          animationStartTime = currentTime;
-        }
       }
       
       // Optimized animation loop with enhanced visibility
@@ -616,15 +560,8 @@
         const deltaTime = currentTime - lastFrameTime;
         lastFrameTime = currentTime;
         
-        scrollVelocity *= 0.95;
-        
-        // Drift particles back to viewport when scrolling stops
-        if (Math.abs(scrollVelocity) < 0.1) {
-          driftToViewport();
-        }
-        
-        // Handle gathering behavior
-        handleGathering(currentTime);
+        // Increased scroll velocity decay
+        scrollVelocity *= 0.85; // More friction (was 0.95)
         
         frameCount++;
         if (currentTime - lastPerformanceCheck > 5000) {
