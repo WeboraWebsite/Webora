@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Work - Webora – Web Development Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css_styles.css">
+  <style>
+    /* Portfolio grid styles */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin: 3rem 0;
+    }
+    
+    .portfolio-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: var(--shadow-subtle);
+      height: 100%;
+    }
+    
+    .portfolio-item:hover {
+      transform: translateY(-15px);
+      box-shadow: var(--shadow-strong);
+    }
+    
+    .portfolio-image {
+      height: 250px;
+      overflow: hidden;
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.05);
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .portfolio-image-1 {
+      background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+    }
+    
+    .portfolio-image-2 {
+      background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80');
+    }
+    
+    .portfolio-image-3 {
+      background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80');
+    }
+    
+    .portfolio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+    
+    .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+    }
+    
+    .view-project {
+      padding: 10px 20px;
+      background: #333333;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    
+    .view-project:hover {
+      transform: scale(1.05);
+      background: #222222;
+    }
+    
+    [data-theme="dark"] .view-project {
+      background: white;
+      color: black;
+    }
+    
+    [data-theme="dark"] .view-project:hover {
+      background: #f0f0f0;
+    }
+    
+    .portfolio-info {
+      padding: var(--spacing-md);
+    }
+    
+    .portfolio-info h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+    }
+    
+    .portfolio-info p {
+      margin-bottom: 1rem;
+      opacity: 0.8;
+      text-align: justify; /* Justify portfolio descriptions */
+      text-justify: inter-word;
+    }
+    
+    .portfolio-tag {
+      display: inline-block;
+      padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.05);
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    
+    [data-theme="dark"] .portfolio-tag {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    /* Hide testimonial section */
+    .testimonial-container {
+      display: none; /* Hide the entire testimonial section */
+    }
+    
+    /* Contact CTA Section */
+    .contact-cta {
+      text-align: center;
+      margin: 6rem 0 4rem;
+      padding: 4rem 2rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-strong);
+    }
+    
+    /* For screen readers only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    /* Enhanced theme toggle and home button styling with border in dark mode */
+    [data-theme="dark"] .theme-toggle,
+    [data-theme="dark"] .home-btn {
+      border: 2px solid rgba(255, 255, 255, 0.3); /* Light border in dark mode */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Subtle glow in dark mode */
+    }
+    
+    /* Home button hover effect in dark mode */
+    [data-theme="dark"] .home-btn:hover {
+      border-color: rgba(255, 255, 255, 0.5); /* Brighter border on hover */
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); /* Enhanced glow on hover */
+    }
+
+    @media (max-width: 992px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Network Animation Background -->
+  <div id="network-background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; pointer-events: none; opacity: 0.4;">
+    <canvas id="network-canvas" style="width: 100%; height: 100%; background: transparent;"></canvas>
+  </div>
+
+  <div class="page-wrapper">
+    <!-- Header with Full-screen Takeover -->
+    <header id="header">
+      <div class="header-container">
+        <a href="index.html" class="logo" style="gap: 20px;">
+          <img src="images/weboralogo.svg" alt="Webora Logo" class="logo-img" style="width: 80px; height: 80px; min-width: 80px; min-height: 80px;">
+          Webora
+        </a>
+        
+        <div class="header-right">
+          <a href="index.html" class="header-btn">Home</a>
+          <a href="about.html" class="header-btn">About Us</a>
+          <a href="process.html" class="header-btn">Our Process</a>
+          <a href="work.html" class="header-btn">Projects</a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Full-screen Navigation -->
+      <nav class="full-nav" id="fullNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="process.html">Our Process</a>
+        <a href="work.html">Projects</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Page Header with White Background - Full width for background but contained content -->
+    <div class="page-header full-width">
+      <div class="page-header-content fade-in contained-width">
+        <h1>Our Work</h1>
+        <p class="lead" style="text-align: center;">Explore our portfolio of successful projects that showcase our capabilities</p>
+      </div>
+    </div>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+      <div class="container">
+        <h2 class="text-center fade-in">Featured Projects</h2>
+        <p class="lead text-center fade-in delay-1" style="text-align: center;">These are some of the projects we've delivered for our clients across different industries</p>
+        
+        <div class="portfolio-grid">
+          <!-- Portfolio Item 1 -->
+          <div class="portfolio-item fade-in">
+            <div class="portfolio-image portfolio-image-1">
+              <div class="portfolio-overlay">
+                <button class="view-project">View Project</button>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h3>LuxRealty Dubai</h3>
+              <p>A premium real estate website featuring interactive property listings and virtual tours.</p>
+              <div class="portfolio-tags">
+                <span class="portfolio-tag">Real Estate</span>
+                <span class="portfolio-tag">React.js</span>
+                <span class="portfolio-tag">UI/UX Design</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Portfolio Item 2 -->
+          <div class="portfolio-item fade-in delay-1">
+            <div class="portfolio-image portfolio-image-2">
+              <div class="portfolio-overlay">
+                <button class="view-project">View Project</button>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h3>TechHub Solutions</h3>
+              <p>Corporate website for an IT consultancy with service booking system and client portal.</p>
+              <div class="portfolio-tags">
+                <span class="portfolio-tag">Corporate</span>
+                <span class="portfolio-tag">WordPress</span>
+                <span class="portfolio-tag">Custom API</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Portfolio Item 3 -->
+          <div class="portfolio-item fade-in delay-2">
+            <div class="portfolio-image portfolio-image-3">
+              <div class="portfolio-overlay">
+                <button class="view-project">View Project</button>
+              </div>
+            </div>
+            <div class="portfolio-info">
+              <h3>Arabian Delights</h3>
+              <p>E-commerce platform for a gourmet food retailer with online ordering and delivery scheduling.</p>
+              <div class="portfolio-tags">
+                <span class="portfolio-tag">E-commerce</span>
+                <span class="portfolio-tag">WooCommerce</span>
+                <span class="portfolio-tag">Payment Gateway</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Client Testimonial - Hidden via CSS but kept in DOM -->
+        <div class="testimonial-container">
+          <h2 class="text-center fade-in">Client Testimonial</h2>
+          <div class="testimonial fade-in delay-1">
+            <div class="testimonial-text">
+              Working with Webora transformed our online presence completely. The website they built for us not only looks stunning but has significantly increased our customer engagement and sales. Their attention to detail and commitment to our success made all the difference.
+            </div>
+            <div class="testimonial-author">Ahmed Al Falasi</div>
+            <div class="testimonial-company">CEO, Arabian Delights</div>
+          </div>
+        </div>
+        
+        <!-- Contact CTA -->
+        <div class="contact-cta fade-in">
+          <h2>Ready to Start Your Project?</h2>
+          <p class="lead" style="text-align: center;">Let's create something amazing together</p>
+          <a href="index.html#contact" class="btn-cta" style="margin-top: 2rem;">
+            <span class="btn-cta-text">Contact Us</span>
+            <span class="btn-cta-icon">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SINGLE FOOTER -->
+    <footer class="glass" id="info">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="logo-text">Webora</div>
+            <p class="tagline">Creating exceptional digital experiences</p>
+          </div>
+          
+          <div class="footer-links">
+            <div class="footer-nav">
+              <h4>Navigation</h4>
+              <a href="index.html">Home</a>
+              <a href="about.html">About Us</a>
+              <a href="process.html">Our Process</a>
+              <a href="work.html">Our Work</a>
+              <a href="index.html#contact">Contact</a>
+            </div>
+            
+            <div class="footer-legal">
+              <h4>Legal</h4>
+              <a href="terms.html">Terms of Service</a>
+              <a href="privacy.html">Privacy Policy</a>
+              <a href="cookies.html">Cookie Policy</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; <span id="currentYear"></span> Webora. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Theme toggle - updated to vertical toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <div class="toggle-knob">
+      <!-- Moon icon (shown in light mode) -->
+      <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+      </svg>
+      
+      <!-- Sun icon (shown in dark mode) -->
+      <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+      </svg>
+    </div>
+  </button>
+  
+  <!-- Home Button -->
+  <a href="index.html" class="home-btn" title="Home" aria-label="Back to Home">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </a>
+
+  <!-- For screen readers to announce theme changes -->
+  <div id="themeAnnounce" class="sr-only" aria-live="polite"></div>
+
+  <!-- Load JS scripts -->
+  <script src="js_scripts.js"></script>
+  <script src="debug-logo.js"></script>
+  
+  <!-- Direct Network Animation Script -->
+  <script>
+    // Optimized network animation with enhanced visibility and scroll-reactive vertical movement
+    (function() {
+      const canvas = document.getElementById('network-canvas');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const particles = [];
+      let animationId;
+      let mouseX = 0;
+      let mouseY = 0;
+      let isVisible = true;
+      let lastFrameTime = 0;
+      let lastScrollY = 0;
+      let scrollVelocity = 0;
+      const targetFPS = 60;
+      const frameInterval = 1000 / targetFPS;
+      
+      // Viewport bounds for culling with buffer
+      const CULL_BUFFER = 100;
+      let viewportBounds = {
+        left: -CULL_BUFFER,
+        right: window.innerWidth + CULL_BUFFER,
+        top: -CULL_BUFFER,
+        bottom: window.innerHeight + CULL_BUFFER
+      };
+      
+      // Performance monitoring
+      let frameCount = 0;
+      let lastPerformanceCheck = Date.now();
+      
+      // Smooth interpolation function
+      function lerp(start, end, factor) {
+        return start + (end - start) * factor;
+      }
+      
+      // Check if particle is within viewport bounds
+      function isParticleVisible(particle) {
+        return particle.x >= viewportBounds.left && 
+               particle.x <= viewportBounds.right && 
+               particle.y >= viewportBounds.top && 
+               particle.y <= viewportBounds.bottom;
+      }
+      
+      // Set canvas size with optimization
+      function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
+        
+        // Update viewport bounds
+        viewportBounds = {
+          left: -CULL_BUFFER,
+          right: window.innerWidth + CULL_BUFFER,
+          top: -CULL_BUFFER,
+          bottom: window.innerHeight + CULL_BUFFER
+        };
+        
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '-2';
+        canvas.style.pointerEvents = 'none';
+      }
+      
+      // Optimized particle creation
+      function createParticles() {
+        particles.length = 0;
+        const baseCount = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+        const connectedParticleCount = Math.max(45, baseCount);
+        const unconnectedParticleCount = Math.floor(connectedParticleCount * 0.15);
+        const totalParticleCount = connectedParticleCount + unconnectedParticleCount;
+        
+        for (let i = 0; i < totalParticleCount; i++) {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const bias = 0.2;
+          
+          let x = Math.random() * window.innerWidth;
+          let y = Math.random() * window.innerHeight;
+          
+          x = x + (centerX - x) * bias * Math.random();
+          y = y + (centerY - y) * bias * Math.random();
+          
+          particles.push({
+            x: x,
+            y: y,
+            targetX: x,
+            targetY: y,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: (Math.random() - 0.5) * 0.15,
+            radius: Math.random() * 1.8 + 0.8,
+            originalRadius: Math.random() * 1.8 + 0.8,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.008 + Math.random() * 0.008,
+            glowIntensity: Math.random() * 0.4 + 0.4,
+            isGlowing: Math.random() > 0.7,
+            isConnected: i < connectedParticleCount,
+            scrollSensitivity: 0.4 + Math.random() * 0.6,
+            verticalOffset: 0,
+            isVisible: true,
+            lastVisible: true
+          });
+        }
+      }
+      
+      // Cached colors with enhanced visibility
+      let cachedColors = null;
+      let lastTheme = null;
+      
+      function getColors() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (cachedColors && lastTheme === currentTheme) {
+          return cachedColors;
+        }
+        
+        const isDark = currentTheme === 'dark';
+        cachedColors = {
+          particle: isDark ? 'rgba(255, 255, 255, 1.0)' : 'rgba(0, 0, 0, 0.9)', // Black particles in light mode
+          particleGlow: isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)', // Black glow in light mode
+          line: isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.3)', // Black lines in light mode
+          lineGlow: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.35)' // Black line glow in light mode
+        };
+        lastTheme = currentTheme;
+        return cachedColors;
+      }
+      
+      // Handle scroll events with velocity calculation and vertical movement
+      function handleScroll() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+        
+        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.1, 0.1);
+        
+        particles.forEach(particle => {
+          const scrollEffect = scrollDelta * particle.scrollSensitivity * 0.08;
+          
+          particle.targetX += scrollEffect * (Math.random() - 0.5);
+          
+          const verticalScrollEffect = scrollVelocity * particle.scrollSensitivity * 2;
+          particle.targetY += verticalScrollEffect;
+          particle.verticalOffset += verticalScrollEffect * 0.5;
+          
+          const extendedWidth = window.innerWidth + 200;
+          const extendedHeight = window.innerHeight + 200;
+          
+          if (particle.targetX < -100) particle.targetX = extendedWidth;
+          if (particle.targetX > extendedWidth) particle.targetX = -100;
+          if (particle.targetY < -100) particle.targetY = extendedHeight;
+          if (particle.targetY > extendedHeight) particle.targetY = -100;
+        });
+        
+        lastScrollY = currentScrollY;
+      }
+      
+      // New function to drift particles back to viewport when scrolling stops
+      function driftToViewport() {
+        particles.forEach(particle => {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          const dx = centerX - particle.targetX;
+          const dy = centerY - particle.targetY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance > window.innerWidth * 0.3) {
+            const driftStrength = 0.002;
+            particle.targetX += dx * driftStrength * particle.scrollSensitivity;
+            particle.targetY += dy * driftStrength * particle.scrollSensitivity;
+          }
+          
+          particle.verticalOffset *= 0.98;
+        });
+      }
+
+      // New gathering behavior after 4 seconds
+      let animationStartTime = Date.now();
+      let isGathering = false;
+      let gatheringStartTime = 0;
+      const gatheringDuration = 2000;
+      const waitTime = 4000;
+      
+      function handleGathering(currentTime) {
+        const elapsed = currentTime - animationStartTime;
+        
+        if (elapsed > waitTime && !isGathering) {
+          isGathering = true;
+          gatheringStartTime = currentTime;
+        }
+        
+        if (isGathering && (currentTime - gatheringStartTime) < gatheringDuration) {
+          const gatherProgress = (currentTime - gatheringStartTime) / gatheringDuration;
+          const easeInOut = gatherProgress < 0.5 
+            ? 2 * gatherProgress * gatherProgress 
+            : 1 - Math.pow(-2 * gatherProgress + 2, 3) / 2;
+          
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          particles.forEach(particle => {
+            const dx = centerX - particle.x;
+            const dy = centerY - particle.y;
+            
+            const gatherStrength = easeInOut * 0.05;
+            particle.targetX += dx * gatherStrength;
+            particle.targetY += dy * gatherStrength;
+          });
+        }
+        
+        if (isGathering && (currentTime - gatheringStartTime) >= gatheringDuration) {
+          isGathering = false;
+          animationStartTime = currentTime;
+        }
+      }
+      
+      // Optimized animation loop with enhanced visibility
+      function animate(currentTime) {
+        if (!isVisible) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        
+        if (currentTime - lastFrameTime < frameInterval) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        
+        const deltaTime = currentTime - lastFrameTime;
+        lastFrameTime = currentTime;
+        
+        scrollVelocity *= 0.95;
+        
+        // Drift particles back to viewport when scrolling stops
+        if (Math.abs(scrollVelocity) < 0.1) {
+          driftToViewport();
+        }
+        
+        // Handle gathering behavior
+        handleGathering(currentTime);
+        
+        frameCount++;
+        if (currentTime - lastPerformanceCheck > 5000) {
+          const fps = frameCount / 5;
+          if (fps < 25 && particles.length > 20) {
+            particles.splice(0, Math.floor(particles.length * 0.05));
+          }
+          frameCount = 0;
+          lastPerformanceCheck = currentTime;
+        }
+        
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        const colors = getColors();
+        
+        const lerpFactor = Math.min(deltaTime / 16.67 * 0.08, 0.15);
+        
+        const visibleParticles = [];
+        const connectionsToRender = [];
+        
+        particles.forEach((particle, i) => {
+          particle.x = lerp(particle.x, particle.targetX, lerpFactor);
+          particle.y = lerp(particle.y, particle.targetY, lerpFactor);
+          
+          const timeMultiplier = deltaTime / 16.67;
+          particle.targetX += particle.vx * timeMultiplier;
+          particle.targetY += particle.vy * timeMultiplier;
+          
+          particle.targetY += particle.verticalOffset * 0.02;
+          
+          if (particle.targetX < 0 || particle.targetX > window.innerWidth) {
+            particle.vx *= -0.95;
+            particle.targetX = Math.max(0, Math.min(window.innerWidth, particle.targetX));
+          }
+          if (particle.targetY < 0 || particle.targetY > window.innerHeight) {
+            particle.vy *= -0.95;
+            particle.targetY = Math.max(0, Math.min(window.innerHeight, particle.targetY));
+            particle.verticalOffset *= 0.8;
+          }
+          
+          particle.isVisible = isParticleVisible(particle);
+          
+          if (!particle.isVisible) {
+            particle.lastVisible = false;
+            return;
+          }
+          
+          particle.pulse += particle.pulseSpeed * timeMultiplier;
+          const currentRadius = particle.originalRadius + Math.sin(particle.pulse) * 0.4;
+          
+          const dx = mouseX - particle.x;
+          const dy = mouseY - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 90) {
+            const force = (90 - distance) / 90;
+            const pushX = (dx / distance) * force * 0.25 * timeMultiplier;
+            const pushY = (dy / distance) * force * 0.25 * timeMultiplier;
+            
+            particle.targetX -= pushX;
+            particle.targetY -= pushY;
+            particle.isGlowing = true;
+          } else if (distance > 130) {
+            particle.isGlowing = Math.random() > 0.85;
+          }
+          
+          visibleParticles.push({
+            particle,
+            currentRadius,
+            isGlowing: particle.isGlowing,
+            index: i
+          });
+          
+          if (particle.isConnected) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const other = particles[j];
+              if (!other.isConnected || !other.isVisible) continue;
+              
+              const dx = particle.x - other.x;
+              const dy = particle.y - other.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              if (distance < 140) {
+                connectionsToRender.push({
+                  from: particle,
+                  to: other,
+                  distance,
+                  opacity: (140 - distance) / 140,
+                  glowing: particle.isGlowing || other.isGlowing
+                });
+              }
+            }
+          }
+          
+          particle.lastVisible = true;
+        });
+        
+        connectionsToRender.forEach(conn => {
+          if (conn.glowing) {
+            ctx.save();
+            ctx.shadowColor = colors.lineGlow;
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(conn.from.x, conn.from.y);
+            ctx.lineTo(conn.to.x, conn.to.y);
+            ctx.strokeStyle = colors.lineGlow.replace(/[\d\.]+\)/, `${0.5 * conn.opacity})`);
+            ctx.lineWidth = 1.4;
+            ctx.stroke();
+            ctx.restore();
+          }
+          
+          ctx.beginPath();
+          ctx.moveTo(conn.from.x, conn.from.y);
+          ctx.lineTo(conn.to.x, conn.to.y);
+          ctx.strokeStyle = colors.line.replace(/[\d\.]+\)/, `${0.35 * conn.opacity})`);
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        });
+        
+        visibleParticles.forEach(({ particle, currentRadius, isGlowing }) => {
+          if (isGlowing) {
+            ctx.save();
+            ctx.shadowColor = colors.particleGlow;
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, currentRadius * 1.4, 0, Math.PI * 2);
+            ctx.fillStyle = colors.particleGlow;
+            ctx.fill();
+            ctx.restore();
+          }
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, currentRadius, 0, Math.PI * 2);
+          ctx.fillStyle = isGlowing ? colors.particleGlow : colors.particle;
+          ctx.fill();
+        });
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+      });
+      
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          resizeCanvas();
+          createParticles();
+        }, 150);
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      
+      let lastScrollTime = 0;
+      window.addEventListener('scroll', () => {
+        const currentTime = Date.now();
+        if (currentTime - lastScrollTime > 16) {
+          handleScroll();
+          lastScrollTime = currentTime;
+        }
+      });
+      
+      lastScrollY = window.pageYOffset;
+      
+      resizeCanvas();
+      createParticles();
+      requestAnimationFrame(animate);
+      
+      console.log('Enhanced network animation started with', particles.length, 'particles and scroll-reactive movement');
+      
+      let themeTimeout;
+      const observer = new MutationObserver(() => {
+        clearTimeout(themeTimeout);
+        themeTimeout = setTimeout(() => {
+          cachedColors = null;
+        }, 100);
+      });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+      });
+      
+    })();
+  </script>
+  
+  <!-- Fix for menu scrollbar shift -->
+  <script>
+    // Function to get scrollbar width
+    function getScrollbarWidth() {
+      // Create temporary elements to measure scrollbar
+      const outer = document.createElement('div');
+      outer.style.visibility = 'hidden';
+      outer.style.overflow = 'scroll';
+      outer.style.msOverflowStyle = 'scrollbar';
+      document.body.appendChild(outer);
+      
+      const inner = document.createElement('div');
+      outer.appendChild(inner);
+      
+      const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+      outer.parentNode.removeChild(outer);
+      
+      return scrollbarWidth;
+    }
+
+    // Update menu toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('menuToggle');
+      const body = document.body;
+      
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+          const isMenuOpen = body.classList.contains('no-scroll');
+          
+          if (!isMenuOpen) {
+            // Menu is opening - prevent scroll and compensate for scrollbar
+            const scrollbarWidth = getScrollbarWidth();
+            const hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+            
+            body.classList.add('no-scroll');
+            
+            // Only add padding if there's actually a scrollbar
+            if (hasScrollbar && scrollbarWidth > 0) {
+              body.style.paddingRight = scrollbarWidth + 'px';
+            }
+          } else {
+            // Menu is closing - restore scroll
+            body.classList.remove('no-scroll');
+            body.style.paddingRight = '';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://webora.info/sitemap.xml
+
+# Disallow admin and backend areas
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /cgi-bin/
+Disallow: /tmp/
+
+# Optimize crawl budget
+Crawl-delay: 1

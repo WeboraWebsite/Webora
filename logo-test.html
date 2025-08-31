@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webora Logo Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    h1, h2 {
+      color: #333;
+    }
+    
+    .test-container {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    .test-item {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .test-label {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .test-result {
+      color: #777;
+      font-size: 14px;
+    }
+    
+    .success {
+      color: green;
+    }
+    
+    .failure {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Webora Logo Test Page</h1>
+  <p>This page tests different ways of loading the logo to help diagnose issues.</p>
+  
+  <div class="test-container">
+    <h2>Test 1: Direct Image Tag</h2>
+    <div class="test-item">
+      <div class="test-label">Standard Image Tag:</div>
+      <img src="webora-logo.png" width="40" height="40" alt="Webora Logo">
+      <div class="test-result" id="result1"></div>
+    </div>
+    
+    <h2>Test 2: Image with Background</h2>
+    <div class="test-item">
+      <div class="test-label">Image with Black Background:</div>
+      <div style="background: #000; padding: 10px; display: inline-block;">
+        <img src="webora-logo.png" width="40" height="40" alt="Webora Logo">
+      </div>
+      <div class="test-result" id="result2"></div>
+    </div>
+    
+    <h2>Test 3: SVG Fallback</h2>
+    <div class="test-item">
+      <div class="test-label">SVG Fallback:</div>
+      <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" fill="#000"/>
+        <text x="20" y="28" font-family="Arial" font-size="26" fill="#fff" text-anchor="middle">W</text>
+      </svg>
+      <div class="test-result">This SVG is a guaranteed fallback.</div>
+    </div>
+    
+    <h2>Test 4: CSS Background Image</h2>
+    <div class="test-item">
+      <div class="test-label">CSS Background Image:</div>
+      <div id="css-bg-test" style="width: 40px; height: 40px; background-image: url('webora-logo.png'); background-size: contain; background-repeat: no-repeat;"></div>
+      <div class="test-result" id="result4"></div>
+    </div>
+    
+    <h2>Test 5: Different Paths</h2>
+    <div class="test-item">
+      <div class="test-label">Testing Different Paths:</div>
+      <div id="path-tests"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Test 1: Direct image
+      const img1 = document.querySelector('.test-item:nth-child(1) img');
+      img1.onload = function() {
+        document.getElementById('result1').textContent = 'SUCCESS: Image loaded successfully!';
+        document.getElementById('result1').classList.add('success');
+      };
+      img1.onerror = function() {
+        document.getElementById('result1').textContent = 'FAILURE: Image failed to load. File might not exist or path might be wrong.';
+        document.getElementById('result1').classList.add('failure');
+      };
+      
+      // Test 2: Image with background
+      const img2 = document.querySelector('.test-item:nth-child(2) img');
+      img2.onload = function() {
+        document.getElementById('result2').textContent = 'SUCCESS: Image loaded successfully!';
+        document.getElementById('result2').classList.add('success');
+      };
+      img2.onerror = function() {
+        document.getElementById('result2').textContent = 'FAILURE: Image failed to load. File might not exist or path might be wrong.';
+        document.getElementById('result2').classList.add('failure');
+      };
+      
+      // Test 4: CSS Background
+      const testEl = document.getElementById('css-bg-test');
+      setTimeout(() => {
+        // Check if the background image has dimensions
+        const bgImg = new Image();
+        bgImg.src = 'webora-logo.png';
+        bgImg.onload = function() {
+          document.getElementById('result4').textContent = 'SUCCESS: Background image loaded!';
+          document.getElementById('result4').classList.add('success');
+        };
+        bgImg.onerror = function() {
+          document.getElementById('result4').textContent = 'FAILURE: Background image failed to load.';
+          document.getElementById('result4').classList.add('failure');
+        };
+      }, 500);
+      
+      // Test 5: Different paths
+      const paths = [
+        './webora-logo.png',
+        '/webora-logo.png',
+        '../webora-logo.png',
+        'images/webora-logo.png',
+        '/images/webora-logo.png',
+        './images/webora-logo.png'
+      ];
+      
+      const pathsContainer = document.getElementById('path-tests');
+      
+      paths.forEach(path => {
+        const pathTest = document.createElement('div');
+        pathTest.style.marginBottom = '10px';
+        
+        const img = new Image();
+        img.src = path;
+        img.width = 40;
+        img.height = 40;
+        img.style.display = 'inline-block';
+        img.style.marginRight = '10px';
+        
+        const result = document.createElement('span');
+        
+        img.onload = function() {
+          result.textContent = `Path "${path}" - SUCCESS`;
+          result.classList.add('success');
+        };
+        img.onerror = function() {
+          result.textContent = `Path "${path}" - FAILURE`;
+          result.classList.add('failure');
+        };
+        
+        pathTest.appendChild(img);
+        pathTest.appendChild(result);
+        pathsContainer.appendChild(pathTest);
+      });
+    });
+  </script>
+  
+  <h2>Next Steps:</h2>
+  <ol>
+    <li>If none of the images load, your logo file is missing. Make sure it's named exactly "webora-logo.png" and is in the correct location.</li>
+    <li>If some paths work but others don't, update your HTML to use the working path.</li>
+    <li>If the images load here but not on your actual pages, there may be a CSS issue affecting visibility.</li>
+  </ol>
+</body>
+</html>

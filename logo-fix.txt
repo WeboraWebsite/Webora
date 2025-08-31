@@ -1,0 +1,30 @@
+WEBORA LOGO TROUBLESHOOTING GUIDE
+
+If your logo is not displaying correctly, try these solutions in order:
+
+1. VERIFY FILE LOCATION
+   Make sure "webora-logo.png" exists in the root folder (c:\Users\aatif\Downloads\Webora\)
+   The file name is case-sensitive on some servers - ensure it's exactly "webora-logo.png"
+
+2. CHECK BROWSER CACHE
+   Try clearing your browser cache (Ctrl+F5 or Cmd+Shift+R on Mac)
+   Or open the site in incognito/private browsing mode
+
+3. COMMON ISSUES & SOLUTIONS:
+   - File format: Make sure it's a PNG image
+   - File permissions: Ensure the file is readable by the web server
+   - File size: The logo should be approximately 40x40 pixels
+
+4. ALTERNATIVE PLACEMENT:
+   If the issue persists, try creating an "images" folder and placing the logo there:
+   c:\Users\aatif\Downloads\Webora\images\webora-logo.png
+   
+   Then update the HTML files to use:
+   <img src="images/webora-logo.png" ... >
+
+5. CHECK CONSOLE:
+   Open your browser's developer tools (F12) and check the Console tab
+   Look for any errors related to loading the image
+   The debugging script we added will provide helpful information
+
+If the logo still doesn't appear, the fallback "W" logo will be shown automatically.

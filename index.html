@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Webora - Web Development Agency | Custom Websites Tailored To Your Palette</title>
+  <meta name="description" content="Webora is a Dubai-based creative web development agency crafting stunning, high-performance websites with exceptional user experience.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css_styles.css">
+  
+  <style>
+    /* Custom hover styles for feature cards */
+    .feature-card {
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      transition: transform 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+      background-color: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Improved bullet point alignment for feature list */
+    .feature-list {
+      text-align: left;
+      padding-left: 0;
+      list-style-position: outside;
+      list-style-type: none;
+      margin: var(--spacing-md) 0;
+    }
+    
+    .feature-list li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: var(--spacing-sm);
+      text-align: left; /* Changed from justify to left */
+      line-height: 1.6;
+    }
+    
+    .feature-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    
+    /* Fix for bullet point color */
+    .feature-list li::before {
+      color: var(--text-primary);
+    }
+    
+    /* Ensure all animations are properly visible */
+    .fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Mobile responsive layout for contact section */
+    @media (max-width: 768px) {
+      #contact-grid {
+        grid-template-columns: 1fr !important; /* Force single column layout */
+      }
+      
+      #contact-form-column {
+        order: 2; /* Move form below contact info */
+        margin-top: var(--spacing-lg); /* Add space between sections */
+      }
+      
+      #contact-info-column {
+        order: 1; /* Ensure contact info is on top */
+      }
+    }
+    
+    /* Even smaller screens - adjust contact info display */
+    @media (max-width: 480px) {
+      #contact-info-column > div > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: var(--spacing-lg);
+      }
+      
+      .contact-info-icon {
+        margin-right: 0;
+        margin-bottom: var(--spacing-xs);
+      }
+    }
+    
+    /* Enhanced contact section styling with hover animations */
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+      transition: transform 0.3s ease;
+    }
+    
+    .contact-info-item:hover {
+      transform: translateX(8px);
+    }
+    
+    .contact-info-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: var(--spacing-sm);
+      background-color: rgba(0, 0, 0, 0.02);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-info-item:hover .contact-info-icon {
+      background-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+      transform: scale(1.1);
+    }
+    
+    .contact-info-icon .icon-svg {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.3s ease;
+    }
+    
+    .contact-info-item:hover .icon-svg {
+      transform: scale(1.1);
+    }
+    
+    .contact-info-text h4 {
+      font-size: 1rem;
+      margin-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+    
+    .contact-info-text p, 
+    .contact-info-text a {
+      font-size: 0.95rem;
+      margin-bottom: 0;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-info-item:hover .contact-info-text h4 {
+      color: var(--text-primary);
+    }
+    
+    .contact-info-item:hover .contact-info-text p,
+    .contact-info-item:hover .contact-info-text a {
+      color: var(--text-primary);
+    }
+    
+    /* Make textarea only resizable vertically */
+    textarea#message {
+      resize: vertical;
+      min-height: 120px;
+      max-height: 300px;
+    }
+    
+    /* Style adjustments for dark mode */
+    [data-theme="dark"] .feature-list li::before {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    /* Enhanced icon background for dark mode - matching about.html */
+    [data-theme="dark"] .feature-icon,
+    [data-theme="dark"] .contact-info-icon {
+      background: rgba(255, 255, 255, 0.12); /* More visible background in dark mode */
+    }
+    
+    /* Enhanced hover effects for dark mode - matching about.html */
+    [data-theme="dark"] .feature-card:hover .feature-icon {
+      background: rgba(255, 255, 255, 0.25); /* Even more visible on hover */
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    }
+    
+    [data-theme="dark"] .contact-info-item:hover .contact-info-icon {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+    
+    /* Enhanced theme toggle and home button styling with border in dark mode */
+    [data-theme="dark"] .theme-toggle,
+    [data-theme="dark"] .home-btn {
+      border: 2px solid rgba(255, 255, 255, 0.3); /* Light border in dark mode */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Subtle glow in dark mode */
+    }
+    
+    /* Home button hover effect in dark mode */
+    [data-theme="dark"] .home-btn:hover {
+      border-color: rgba(255, 255, 255, 0.5); /* Brighter border on hover */
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); /* Enhanced glow on hover */
+    }
+    
+    /* For screen readers only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    /* Notification styles */
+    .notification {
+      position: fixed;
+      top: 90px;
+      right: 20px;
+      background-color: var(--glass-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 15px 20px;
+      box-shadow: var(--shadow-strong);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      max-width: 300px;
+      transform: translateX(400px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .notification-icon {
+      margin-right: 12px;
+      width: 24px;
+      height: 24px;
+      fill: #4caf50;
+    }
+    
+    .notification-content {
+      flex: 1;
+    }
+    
+    .notification-title {
+      font-weight: 500;
+      margin-bottom: 2px;
+      font-size: 1rem;
+    }
+    
+    .notification-message {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .notification-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+    
+    .notification-close:hover {
+      opacity: 1;
+    }
+    
+    /* Logo styling */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px; /* Space between logo image and text */
+    }
+    
+    .logo-img {
+      width: 80px; /* Fixed width */
+      height: 80px; /* Fixed height */
+      min-width: 80px; /* Ensure minimum width */
+      min-height: 80px; /* Ensure minimum height */
+      border-radius: 8px;
+    }
+
+    /* Hero text container styling */
+    .hero-text-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--spacing-lg);
+      text-align: center;
+    }
+
+    /* About Us CTA Section */
+    .about-cta {
+      background: var(--glass-bg);
+      padding: 4rem 2rem;
+      text-align: center;
+      margin: 4rem 0;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-strong);
+    }
+    
+    .about-cta h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .about-cta p.lead {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: var(--text-secondary);
+    }
+    
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--primary);
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .btn-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-cta:active {
+      transform: translateY(0);
+    }
+    
+    .btn-cta-icon {
+      margin-left: 0.5rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .btn-cta:hover .btn-cta-icon {
+      transform: translateX(5px);
+    }
+
+    /* Our Work Showcase Section - Full width */
+    .work-showcase {
+      padding: 4rem 2rem;
+      background: var(--glass-bg);
+      margin: 4rem 0;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-strong);
+      text-align: center;
+    }
+    
+    .work-showcase h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .work-showcase p.lead {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem; /* Reduced space */
+      color: var(--text-secondary);
+    }
+    
+    .work-preview {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .work-preview-item {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      flex: 1 1 300px; /* Responsive flex basis */
+      max-width: 400px;
+    }
+    
+    .work-preview-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .work-preview-image {
+      height: 200px;
+      background: #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Network Animation Background - Added directly with inline styles -->
+  <div id="network-background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; pointer-events: none; opacity: 0.4;">
+    <canvas id="network-canvas" style="width: 100%; height: 100%; background: transparent;"></canvas>
+  </div>
+
+  <!-- Remove skyline reference from page wrapper styles if present -->
+  
+  <!-- Header with Full-screen Takeover -->
+  <header id="header">
+  <div class="header-container">
+    <a href="index.html" class="logo" aria-label="Webora Home" style="gap: 20px;">
+      <!-- Updated logo with fixed dimensions -->
+      <img src="images/weboralogo.svg" alt="Webora Logo" class="logo-img" style="width: 80px; height: 80px; min-width: 80px; min-height: 80px;">
+      Webora
+    </a>
+    
+    <div class="header-right">
+      <a href="index.html" class="header-btn">Home</a>
+      <a href="about.html" class="header-btn">About Us</a>
+      <a href="process.html" class="header-btn">Our Process</a>
+      <a href="work.html" class="header-btn">Projects</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Full-screen Navigation -->
+  <nav class="full-nav" id="fullNav" aria-label="Main Navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="process.html">Our Process</a>
+    <a href="work.html">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+  <!-- Hero Section - Full width -->
+  <section class="hero full-width" id="home">
+    <div class="hero-content">
+      <div class="hero-text-container glass">
+        <h1 class="fade-in">Elevate Your Digital Presence Beyond Expectations</h1>
+        <p class="lead fade-in delay-1" style="text-align: center;">
+          Webora is a Dubai-based creative web agency. We build sleek, modern websites with stunning design and effortless user experience. Simple. Smart. Effective.
+        </p>
+        <div class="fade-in delay-2" style="margin-top: 3rem;">
+          <a href="#contact" class="btn btn-primary">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section - Full width -->
+  <section id="about" class="features full-width">
+    <div class="content-container">
+      <h2 class="text-center fade-in">Why Choose Webora?</h2>
+      
+      <div class="features-grid">
+        <!-- Feature 1 - Customizability -->
+        <div class="feature-card glass fade-in">
+          <div class="feature-icon">
+            <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+            </svg>
+          </div>
+          <h3>Complete Customizability</h3>
+          <ul class="feature-list">
+            <li>Fully customizable designs tailored to your brand identity</li>
+            <li>Flexible layouts that adapt to your unique business needs</li>
+            <li>Custom features and integrations that make your site truly yours</li>
+            <li>Scalable solutions that grow with your business</li>
+          </ul>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature-card glass fade-in delay-1">
+          <div class="feature-icon">
+            <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11 21h-1l1-7H7.5c-.58 0-.99-.5-.99-1 0-.2.08-.39.22-.55L13.9 3h1l-1 7h3.5c.49 0 .99.4.99.99 0 .27-.11.52-.29.68L11 21z"/>
+            </svg>
+          </div>
+          <h3>Lightning Fast Performance</h3>
+          <ul class="feature-list">
+            <li>Optimized performance across all devices and screen sizes</li>
+            <li>Advanced caching and load time optimization</li>
+            <li>Streamlined code for maximum efficiency</li>
+            <li>SEO-friendly structure for better search engine visibility</li>
+          </ul>
+        </div>
+        
+        <!-- Feature 3 - Support -->
+        <div class="feature-card glass fade-in delay-2">
+          <div class="feature-icon">
+            <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"></path>
+            </svg>
+          </div>
+          <h3>Continuous Support</h3>
+          <ul class="feature-list">
+            <li>24/7 technical assistance for your website needs</li>
+            <li>Regular maintenance and security updates</li>
+            <li>Training and resources to help you manage your site</li>
+            <li>Long-term partnership focused on your digital growth</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us CTA Section - Full width -->
+  <section class="about-cta full-width">
+    <div class="content-container">
+      <div class="about-cta-container fade-in">
+        <h2>Want to Know More About Webora?</h2>
+        <p class="lead" style="text-align: center; white-space: nowrap; display: flex; align-items: center; justify-content: center; margin: 2rem auto 4rem auto; max-width: 100%;">Discover our story, values, and why clients choose us for their web development needs</p>
+        <a href="about.html" class="btn-cta">
+          <span class="btn-cta-text">Explore About Us</span>
+          <span class="btn-cta-icon">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Work Showcase Section - Full width -->
+  <section class="work-showcase full-width">
+    <div class="content-container">
+      <div class="showcase-content glass fade-in">
+        <h2>Need More Convincing?</h2>
+        <p class="lead" style="text-align: center; margin-bottom: 0.5rem;">Explore our portfolio of successful projects that have helped businesses transform their digital presence.</p>
+        
+        <!-- Empty work preview - removed the three items -->
+        <div class="work-preview">
+          <!-- Items removed -->
+        </div>
+        
+        <a href="work.html" class="btn-cta" style="margin-top: 1rem; background: #333333; color: #ffffff;">
+          <span class="btn-cta-text" style="color: #ffffff;">View Our Work</span>
+          <span class="btn-cta-icon" style="color: #ffffff;">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification element -->
+  <div id="notification" class="notification">
+    <svg class="notification-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+    <div class="notification-content">
+      <div class="notification-title">Success!</div>
+      <p class="notification-message">Your message has been sent successfully.</p>
+    </div>
+    <button class="notification-close" aria-label="Close notification">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-primary)">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Contact Section - Full width -->
+  <section id="contact" class="contact full-width">
+    <div class="content-container">
+      <h2 class="text-center fade-in">Get in Touch</h2>
+      
+      <!-- Combined contact card with responsive layout -->
+      <div class="contact-form glass fade-in">
+        <div id="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+          <!-- Contact Info Side -->
+          <div id="contact-info-column">
+            <h3>Contact Webora</h3>
+            
+            <div style="margin-top: var(--spacing-md);">
+              <!-- Email -->
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <h4>Email</h4>
+                  <p><a href="mailto:hello.webora.info@gmail.com">hello.webora.info@gmail.com</a></p>
+                </div>
+              </div>
+              
+              <!-- Phone -->
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <h4>Phone</h4>
+                  <p><a href="tel:+971556263545">+971 55 626 3545</a></p>
+                </div>
+              </div>
+              
+              <!-- WhatsApp -->
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.02-.47.36-2.96-.73-2.49-1.09-3.99-3.75-4.11-3.92-.12-.17-.96-1.38-.92-2.61.05-1.22.69-1.8.95-2.04.24-.26.51-.29.68-.26h.47c.15 0 .36-.06.55.45l.69 1.87c.06.13.1.28.01.44l-.27.41-.39.42c-.12.12-.26.25-.12.5.12.26.62 1.09 1.32 1.78.91.88 1.71 1.17 1.95 1.3.24.14.39.12.54-.04l.81-.94c.19-.25.35-.19.58-.11l1.67.88M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.97 0-3.8-.57-5.35-1.55L2 22l1.55-4.65A9.969 9.969 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.72.54 3.31 1.46 4.61L4.5 19.5l2.89-.96A7.95 7.95 0 0 0 12 20a8 8 0 0 0 8-8a8 8 0 0 0-8-8z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <h4>WhatsApp</h4>
+                  <p><a href="https://wa.me/971556263545">+971 55 626 3545</a></p>
+                </div>
+              </div>
+              
+              <!-- Location -->
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <h4>Location</h4>
+                  <p>Dubai, United Arab Emirates</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact Form Side -->
+          <div id="contact-form-column">
+            <h3>Send a Message</h3>
+            
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="d1e6bfce-9420-42d3-8d08-e91dc060e146">
+              <input type="hidden" name="subject" value="New Contact Form Submission - Webora Website">
+              <input type="hidden" name="redirect" value="">
+              
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your name">
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Your email">
+              </div>
+              
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required placeholder="How can we help you?" rows="4"></textarea>
+              </div>
+              
+              <button type="submit" id="submitButton" class="btn btn-primary btn-block">
+                Send Message
+                <span class="spinner"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="glass" id="info">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="logo-text">Webora</div>
+          <p class="tagline">Creating exceptional digital experiences</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-nav">
+            <h4>Navigation</h4>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="process.html">Our Process</a>
+            <a href="work.html">Our Work</a>
+            <a href="#contact">Contact</a>
+          </div>
+          
+          <div class="footer-legal">
+            <h4>Legal</h4>
+            <a href="terms.html">Terms of Service</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="cookies.html">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear">2023</span> Webora. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Theme toggle - updated to vertical toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <div class="toggle-knob">
+      <!-- Moon icon (shown in light mode) -->
+      <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+      </svg>
+      
+      <!-- Sun icon (shown in dark mode) -->
+      <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+      </svg>
+    </div>
+  </button>
+  
+  <!-- Home Button -->
+  <a href="index.html" class="home-btn" title="Home" aria-label="Back to Home">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </a>
+
+  <!-- For screen readers to announce theme changes -->
+  <div id="themeAnnounce" class="sr-only" aria-live="polite"></div>
+
+  <!-- Load JS scripts - FIXED: removed duplicate script references -->
+  <script src="js_scripts.js"></script>
+  <script src="debug-logo.js"></script>
+  
+  <!-- Direct Network Animation Script -->
+  <script>
+    // Optimized network animation with enhanced visibility and scroll-reactive vertical movement
+    (function() {
+      const canvas = document.getElementById('network-canvas');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const particles = [];
+      let animationId;
+      let mouseX = 0;
+      let mouseY = 0;
+      let isVisible = true;
+      let lastFrameTime = 0;
+      let lastScrollY = 0;
+      let scrollVelocity = 0;
+      const targetFPS = 60;
+      const frameInterval = 1000 / targetFPS;
+      
+      // Viewport bounds for culling with buffer
+      const CULL_BUFFER = 100;
+      let viewportBounds = {
+        left: -CULL_BUFFER,
+        right: window.innerWidth + CULL_BUFFER,
+        top: -CULL_BUFFER,
+        bottom: window.innerHeight + CULL_BUFFER
+      };
+      
+      // Performance monitoring
+      let frameCount = 0;
+      let lastPerformanceCheck = Date.now();
+      
+      // Smooth interpolation function
+      function lerp(start, end, factor) {
+        return start + (end - start) * factor;
+      }
+      
+      // Check if particle is within viewport bounds
+      function isParticleVisible(particle) {
+        return particle.x >= viewportBounds.left && 
+               particle.x <= viewportBounds.right && 
+               particle.y >= viewportBounds.top && 
+               particle.y <= viewportBounds.bottom;
+      }
+      
+      // Set canvas size with optimization
+      function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
+        
+        // Update viewport bounds
+        viewportBounds = {
+          left: -CULL_BUFFER,
+          right: window.innerWidth + CULL_BUFFER,
+          top: -CULL_BUFFER,
+          bottom: window.innerHeight + CULL_BUFFER
+        };
+        
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '-2';
+        canvas.style.pointerEvents = 'none';
+      }
+      
+      // Optimized particle creation
+      function createParticles() {
+        particles.length = 0;
+        const baseCount = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 18000)); // Increased particle count
+        const connectedParticleCount = Math.max(45, baseCount); // More connected particles
+        const unconnectedParticleCount = Math.floor(connectedParticleCount * 0.15);
+        const totalParticleCount = connectedParticleCount + unconnectedParticleCount;
+        
+        for (let i = 0; i < totalParticleCount; i++) {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const bias = 0.2;
+          
+          let x = Math.random() * window.innerWidth;
+          let y = Math.random() * window.innerHeight;
+          
+          x = x + (centerX - x) * bias * Math.random();
+          y = y + (centerY - y) * bias * Math.random();
+          
+          particles.push({
+            x: x,
+            y: y,
+            targetX: x,
+            targetY: y,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: (Math.random() - 0.5) * 0.15,
+            radius: Math.random() * 1.8 + 0.8, // Larger particles for better visibility
+            originalRadius: Math.random() * 1.8 + 0.8,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.008 + Math.random() * 0.008,
+            glowIntensity: Math.random() * 0.4 + 0.4, // Increased glow intensity
+            isGlowing: Math.random() > 0.7, // More particles glow initially
+            isConnected: i < connectedParticleCount,
+            scrollSensitivity: 0.4 + Math.random() * 0.6, // Higher scroll sensitivity
+            verticalOffset: 0, // Track vertical offset from scroll
+            isVisible: true,
+            lastVisible: true
+          });
+        }
+      }
+      
+      // Cached colors with enhanced visibility
+      let cachedColors = null;
+      let lastTheme = null;
+      
+      function getColors() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (cachedColors && lastTheme === currentTheme) {
+          return cachedColors;
+        }
+        
+        const isDark = currentTheme === 'dark';
+        cachedColors = {
+          particle: isDark ? 'rgba(255, 255, 255, 1.0)' : 'rgba(0, 0, 0, 0.9)', // Black particles in light mode
+          particleGlow: isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)', // Black glow in light mode
+          line: isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.3)', // Black lines in light mode
+          lineGlow: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.35)' // Black line glow in light mode
+        };
+        lastTheme = currentTheme;
+        return cachedColors;
+      }
+      
+      // Handle scroll events with velocity calculation and vertical movement
+      function handleScroll() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+        
+        // Calculate scroll velocity (how fast the user is scrolling)
+        scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.1, 0.1);
+        
+        particles.forEach(particle => {
+          const scrollEffect = scrollDelta * particle.scrollSensitivity * 0.08;
+          
+          // Update target positions with horizontal drift
+          particle.targetX += scrollEffect * (Math.random() - 0.5);
+          
+          // Add vertical movement based on scroll velocity
+          const verticalScrollEffect = scrollVelocity * particle.scrollSensitivity * 2;
+          particle.targetY += verticalScrollEffect;
+          particle.verticalOffset += verticalScrollEffect * 0.5;
+          
+          // Keep targets within extended bounds for smooth wrapping
+          const extendedWidth = window.innerWidth + 200;
+          const extendedHeight = window.innerHeight + 200;
+          
+          if (particle.targetX < -100) particle.targetX = extendedWidth;
+          if (particle.targetX > extendedWidth) particle.targetX = -100;
+          if (particle.targetY < -100) particle.targetY = extendedHeight;
+          if (particle.targetY > extendedHeight) particle.targetY = -100;
+        });
+        
+        lastScrollY = currentScrollY;
+      }
+      
+      // New function to drift particles back to viewport when scrolling stops
+      function driftToViewport() {
+        particles.forEach(particle => {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          // Calculate distance from viewport center
+          const dx = centerX - particle.targetX;
+          const dy = centerY - particle.targetY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // Only apply drift if particle is far from viewport
+          if (distance > window.innerWidth * 0.3) {
+            const driftStrength = 0.002; // Gentle drift strength
+            particle.targetX += dx * driftStrength * particle.scrollSensitivity;
+            particle.targetY += dy * driftStrength * particle.scrollSensitivity;
+          }
+          
+          // Gradually reduce vertical offset when not scrolling
+          particle.verticalOffset *= 0.98;
+        });
+      }
+
+      // New gathering behavior after 4 seconds
+      let animationStartTime = Date.now();
+      let isGathering = false;
+      let gatheringStartTime = 0;
+      const gatheringDuration = 2000; // 2 seconds gathering
+      const waitTime = 4000; // Wait 4 seconds before gathering
+      
+      function handleGathering(currentTime) {
+        const elapsed = currentTime - animationStartTime;
+        
+        // Start gathering after 4 seconds
+        if (elapsed > waitTime && !isGathering) {
+          isGathering = true;
+          gatheringStartTime = currentTime;
+        }
+        
+        // During gathering phase (2 seconds)
+        if (isGathering && (currentTime - gatheringStartTime) < gatheringDuration) {
+          const gatherProgress = (currentTime - gatheringStartTime) / gatheringDuration;
+          const easeInOut = gatherProgress < 0.5 
+            ? 2 * gatherProgress * gatherProgress 
+            : 1 - Math.pow(-2 * gatherProgress + 2, 3) / 2;
+          
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          particles.forEach(particle => {
+            // Calculate pull towards center
+            const dx = centerX - particle.x;
+            const dy = centerY - particle.y;
+            
+            // Apply gathering force with easing
+            const gatherStrength = easeInOut * 0.05;
+            particle.targetX += dx * gatherStrength;
+            particle.targetY += dy * gatherStrength;
+          });
+        }
+        
+        // Reset gathering after it's complete
+        if (isGathering && (currentTime - gatheringStartTime) >= gatheringDuration) {
+          isGathering = false;
+          // Reset for next cycle (optional - remove these lines if you want it to happen only once)
+          animationStartTime = currentTime;
+        }
+      }
+
+      // Optimized animation loop with enhanced visibility
+      function animate(currentTime) {
+        if (!isVisible) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        
+        if (currentTime - lastFrameTime < frameInterval) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        
+        const deltaTime = currentTime - lastFrameTime;
+        lastFrameTime = currentTime;
+        
+        // Decay scroll velocity
+        scrollVelocity *= 0.95;
+        
+        // Drift particles back to viewport when scrolling stops
+        if (Math.abs(scrollVelocity) < 0.1) {
+          driftToViewport();
+        }
+        
+        // Handle gathering behavior
+        handleGathering(currentTime);
+        
+        // Performance monitoring
+        frameCount++;
+        if (currentTime - lastPerformanceCheck > 5000) {
+          const fps = frameCount / 5;
+          if (fps < 25 && particles.length > 20) {
+            particles.splice(0, Math.floor(particles.length * 0.05));
+          }
+          frameCount = 0;
+          lastPerformanceCheck = currentTime;
+        }
+        
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        const colors = getColors();
+        
+        // Smooth interpolation factor
+        const lerpFactor = Math.min(deltaTime / 16.67 * 0.08, 0.15);
+        
+        // Arrays for visible particles and connections
+        const visibleParticles = [];
+        const connectionsToRender = [];
+        
+        particles.forEach((particle, i) => {
+          // Smooth interpolation towards target position
+          particle.x = lerp(particle.x, particle.targetX, lerpFactor);
+          particle.y = lerp(particle.y, particle.targetY, lerpFactor);
+          
+          // Update target positions with velocity and scroll influence
+          const timeMultiplier = deltaTime / 16.67;
+          particle.targetX += particle.vx * timeMultiplier;
+          particle.targetY += particle.vy * timeMultiplier;
+          
+          // Add continuous vertical drift based on accumulated scroll
+          particle.targetY += particle.verticalOffset * 0.02;
+          
+          // Smooth boundary bouncing
+          if (particle.targetX < 0 || particle.targetX > window.innerWidth) {
+            particle.vx *= -0.95;
+            particle.targetX = Math.max(0, Math.min(window.innerWidth, particle.targetX));
+          }
+          if (particle.targetY < 0 || particle.targetY > window.innerHeight) {
+            particle.vy *= -0.95;
+            particle.targetY = Math.max(0, Math.min(window.innerHeight, particle.targetY));
+            particle.verticalOffset *= 0.8; // Reduce vertical offset when hitting boundaries
+          }
+          
+          // Check visibility
+          particle.isVisible = isParticleVisible(particle);
+          
+          // Skip invisible particles for performance
+          if (!particle.isVisible) {
+            particle.lastVisible = false;
+            return;
+          }
+          
+          // Enhanced pulsing effect
+          particle.pulse += particle.pulseSpeed * timeMultiplier;
+          const currentRadius = particle.originalRadius + Math.sin(particle.pulse) * 0.4; // Larger pulse amplitude
+          
+          // Smooth mouse interaction
+          const dx = mouseX - particle.x;
+          const dy = mouseY - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 90) { // Larger interaction area
+            const force = (90 - distance) / 90;
+            const pushX = (dx / distance) * force * 0.25 * timeMultiplier;
+            const pushY = (dy / distance) * force * 0.25 * timeMultiplier;
+            
+            particle.targetX -= pushX;
+            particle.targetY -= pushY;
+            particle.isGlowing = true;
+          } else if (distance > 130) {
+            particle.isGlowing = Math.random() > 0.85;
+          }
+          
+          visibleParticles.push({
+            particle,
+            currentRadius,
+            isGlowing: particle.isGlowing,
+            index: i
+          });
+          
+          // Only calculate connections for connected particles within viewport
+          if (particle.isConnected) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const other = particles[j];
+              if (!other.isConnected || !other.isVisible) continue;
+              
+              const dx = particle.x - other.x;
+              const dy = particle.y - other.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              if (distance < 140) { // Increased connection distance
+                connectionsToRender.push({
+                  from: particle,
+                  to: other,
+                  distance,
+                  opacity: (140 - distance) / 140,
+                  glowing: particle.isGlowing || other.isGlowing
+                });
+              }
+            }
+          }
+          
+          particle.lastVisible = true;
+        });
+        
+        // Render connections first with enhanced visibility
+        connectionsToRender.forEach(conn => {
+          if (conn.glowing) {
+            ctx.save();
+            ctx.shadowColor = colors.lineGlow;
+            ctx.shadowBlur = 8; // Increased blur for better glow
+            ctx.beginPath();
+            ctx.moveTo(conn.from.x, conn.from.y);
+            ctx.lineTo(conn.to.x, conn.to.y);
+            ctx.strokeStyle = colors.lineGlow.replace(/[\d\.]+\)/, `${0.5 * conn.opacity})`);
+            ctx.lineWidth = 1.4; // Thicker glowing lines
+            ctx.stroke();
+            ctx.restore();
+          }
+          
+          ctx.beginPath();
+          ctx.moveTo(conn.from.x, conn.from.y);
+          ctx.lineTo(conn.to.x, conn.to.y);
+          ctx.strokeStyle = colors.line.replace(/[\d\.]+\)/, `${0.35 * conn.opacity})`);
+          ctx.lineWidth = 0.8; // Thicker regular lines
+          ctx.stroke();
+        });
+        
+        // Render visible particles with enhanced visibility
+        visibleParticles.forEach(({ particle, currentRadius, isGlowing }) => {
+          if (isGlowing) {
+            ctx.save();
+            ctx.shadowColor = colors.particleGlow;
+            ctx.shadowBlur = 12; // Increased glow effect
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, currentRadius * 1.4, 0, Math.PI * 2);
+            ctx.fillStyle = colors.particleGlow;
+            ctx.fill();
+            ctx.restore();
+          }
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, currentRadius, 0, Math.PI * 2);
+          ctx.fillStyle = isGlowing ? colors.particleGlow : colors.particle;
+          ctx.fill();
+        });
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      
+      // Visibility API for performance
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+      });
+      
+      // Throttled event listeners
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          resizeCanvas();
+          createParticles();
+        }, 150);
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      
+      // Enhanced scroll handler for velocity tracking
+      let scrollTimeout;
+      let lastScrollTime = 0;
+      window.addEventListener('scroll', () => {
+        const currentTime = Date.now();
+        if (currentTime - lastScrollTime > 16) { // Throttle to ~60fps
+          handleScroll();
+          lastScrollTime = currentTime;
+        }
+      });
+      
+      lastScrollY = window.pageYOffset;
+      
+      // Initialize
+      resizeCanvas();
+      createParticles();
+      requestAnimationFrame(animate);
+      
+      console.log('Enhanced network animation started with', particles.length, 'particles and scroll-reactive movement');
+      
+      // Theme change observer
+      let themeTimeout;
+      const observer = new MutationObserver(() => {
+        clearTimeout(themeTimeout);
+        themeTimeout = setTimeout(() => {
+          cachedColors = null;
+        }, 100);
+      });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+      });
+      
+    })();
+  </script>
+</body>
+</html>
