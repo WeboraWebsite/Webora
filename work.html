@@ -80,6 +80,8 @@
       font-weight: 500;
       cursor: pointer;
       transition: transform 0.3s ease, background 0.3s ease;
+      text-decoration: none; /* Remove underline from link */
+      display: inline-block;
     }
     
     .view-project:hover {
@@ -108,7 +110,7 @@
     .portfolio-info p {
       margin-bottom: 1rem;
       opacity: 0.8;
-      text-align: justify; /* Justify portfolio descriptions */
+      text-align: left; /* Changed from justify to left */
       text-justify: inter-word;
     }
     
@@ -241,54 +243,57 @@
         <div class="portfolio-grid">
           <!-- Portfolio Item 1 -->
           <div class="portfolio-item fade-in">
-            <div class="portfolio-image portfolio-image-1">
+            <div class="portfolio-image">
+              <img src="images/bmw.png" alt="DriveNow BMW Project" style="width: 100%; height: 100%; object-fit: cover;">
               <div class="portfolio-overlay">
-                <button class="view-project">View Project</button>
+                <a href="https://weborawebsite.github.io/DriveNow/" target="_blank" class="view-project">View Project</a>
               </div>
             </div>
             <div class="portfolio-info">
-              <h3>LuxRealty Dubai</h3>
-              <p>A premium real estate website featuring interactive property listings and virtual tours.</p>
+              <h3>DriveNow</h3>
+              <p>A premium car rental platform offering an extensive fleet of luxury and everyday vehicles, featuring seamless booking and exceptional customer service.</p>
               <div class="portfolio-tags">
-                <span class="portfolio-tag">Real Estate</span>
+                <span class="portfolio-tag">Car Rental</span>
                 <span class="portfolio-tag">React.js</span>
-                <span class="portfolio-tag">UI/UX Design</span>
+                <span class="portfolio-tag">Booking System</span>
               </div>
             </div>
           </div>
           
           <!-- Portfolio Item 2 -->
           <div class="portfolio-item fade-in delay-1">
-            <div class="portfolio-image portfolio-image-2">
+            <div class="portfolio-image">
+              <img src="images/viora.png" alt="Viora Events Management Project" style="width: 100%; height: 100%; object-fit: cover;">
               <div class="portfolio-overlay">
-                <button class="view-project">View Project</button>
+                <a href="https://weborawebsite.github.io/Viora/" target="_blank" class="view-project">View Project</a>
               </div>
             </div>
             <div class="portfolio-info">
-              <h3>TechHub Solutions</h3>
-              <p>Corporate website for an IT consultancy with service booking system and client portal.</p>
+              <h3>Viora</h3>
+              <p>A sophisticated events management platform specializing in weddings and special occasions, featuring vendor coordination and seamless event planning tools.</p>
               <div class="portfolio-tags">
-                <span class="portfolio-tag">Corporate</span>
+                <span class="portfolio-tag">Events Management</span>
                 <span class="portfolio-tag">WordPress</span>
-                <span class="portfolio-tag">Custom API</span>
+                <span class="portfolio-tag">Vendor Portal</span>
               </div>
             </div>
           </div>
           
           <!-- Portfolio Item 3 -->
           <div class="portfolio-item fade-in delay-2">
-            <div class="portfolio-image portfolio-image-3">
+            <div class="portfolio-image">
+              <img src="images/desi.png" alt="Desi Dhaba Restaurant Project" style="width: 100%; height: 100%; object-fit: cover;">
               <div class="portfolio-overlay">
-                <button class="view-project">View Project</button>
+                <a href="https://weborawebsite.github.io/Desi-Dhaba/" target="_blank" class="view-project">View Project</a>
               </div>
             </div>
             <div class="portfolio-info">
-              <h3>Arabian Delights</h3>
-              <p>E-commerce platform for a gourmet food retailer with online ordering and delivery scheduling.</p>
+              <h3>Desi Dhaba</h3>
+              <p>An authentic Punjabi restaurant website showcasing traditional cuisine with online reservations and menu browsing experience.</p>
               <div class="portfolio-tags">
-                <span class="portfolio-tag">E-commerce</span>
-                <span class="portfolio-tag">WooCommerce</span>
-                <span class="portfolio-tag">Payment Gateway</span>
+                <span class="portfolio-tag">Restaurant</span>
+                <span class="portfolio-tag">WordPress</span>
+                <span class="portfolio-tag">Online Reservations</span>
               </div>
             </div>
           </div>
@@ -309,11 +314,13 @@
         <!-- Contact CTA -->
         <div class="contact-cta fade-in">
           <h2>Ready to Start Your Project?</h2>
-          <p class="lead">Let's create something amazing together</p>
-          <a href="index.html#contact" class="btn-cta" style="margin-top: 2rem;">
-            <span class="btn-cta-text">Contact Us</span>
-            <span class="btn-cta-icon">→</span>
-          </a>
+          <p class="lead">Let's create something amazing together !</p>
+          <div style="text-align: left;">
+            <a href="index.html#contact" class="btn-cta" style="margin-top: 2rem;">
+              <span class="btn-cta-text">Contact Us</span>
+              <span class="btn-cta-icon">→</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

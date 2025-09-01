@@ -831,6 +831,7 @@ section.full-width {
     padding: 0 var(--spacing-sm);
     max-width: 100%;
     margin: 0 auto;
+    text-align: center; /* Center align on mobile */
   }
 }
 
@@ -839,11 +840,17 @@ section.full-width {
     font-size: 0.95rem;
     padding: 0 0.5rem;
     line-height: 1.4;
+    text-align: center; /* Center align on small mobile */
   }
 
   .page-header-content {
     padding: var(--spacing-md);
   }
+}
+
+/* Override lead text alignment for page headers specifically */
+.page-header-content .lead {
+  text-align: center !important; /* Force center alignment for page header lead text */
 }
 
 /* ===== ABOUT CONTENT ===== */
