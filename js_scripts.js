@@ -283,7 +283,46 @@ function checkAndShowNotification() {
   }
 }
 
-// Run when DOM is loaded
+// Navigation active state management
+function setActiveNavigation() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // Remove existing active classes
+  document.querySelectorAll('.header-btn, .full-nav a').forEach(link => {
+    link.classList.remove('active');
+  });
+  
+  // Map pages to navigation links
+  const pageMap = {
+    'index.html': ['Home', 'index.html'],
+    '': ['Home', 'index.html'], // Root path
+    'about.html': ['About Us', 'about.html'],
+    'process.html': ['Our Process', 'process.html'],
+    'work.html': ['Projects', 'work.html']
+  };
+  
+  const currentPageInfo = pageMap[currentPage];
+  
+  if (currentPageInfo) {
+    // Set active for header buttons
+    document.querySelectorAll('.header-btn').forEach(btn => {
+      if (btn.textContent.trim() === currentPageInfo[0] || 
+          btn.getAttribute('href') === currentPageInfo[1]) {
+        btn.classList.add('active');
+      }
+    });
+    
+    // Set active for full navigation
+    document.querySelectorAll('.full-nav a').forEach(link => {
+      if (link.textContent.trim() === currentPageInfo[0] || 
+          link.getAttribute('href') === currentPageInfo[1]) {
+        link.classList.add('active');
+      }
+    });
+  }
+}
+
+// Initialize navigation on page load
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize theme toggle
   initThemeToggle();
@@ -305,4 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
       submitButton.appendChild(spinner);
     }
   }
+  
+  // Set active navigation
+  setActiveNavigation();
 });

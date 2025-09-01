@@ -371,6 +371,33 @@ header.scrolled {
   transform: translateY(-2px);
 }
 
+/* Active state for current page */
+.header-btn.active {
+  background: rgba(255, 255, 255, 0.9); /* Changed to more opaque white background */
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #1a1a1a !important; /* Changed to dark text for better contrast */
+  font-weight: 500;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+}
+
+.header-btn.active:hover {
+  background: rgba(255, 255, 255, 1); /* Pure white on hover */
+  color: #1a1a1a !important; /* Keep dark text on hover */
+}
+
+/* Full-screen navigation active state */
+.full-nav a.active {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+  transform: translateY(0) scale(1.08);
+}
+
+.full-nav a.active::after {
+  width: 100%;
+  background: rgba(255, 255, 255, 1);
+  height: 4px;
+}
+
 .menu-toggle {
   display: block;
   background: transparent;
@@ -1155,7 +1182,7 @@ body.no-scroll {
 
 /* In dark mode, move toggle knob to top */
 [data-theme="dark"] .toggle-knob {
-  transform: translateY(-50px); /* Move up in dark mode */
+  transform: translateY(-45px); /* Reduced from -50px to -45px for better positioning on desktop */
 }
 
 .theme-toggle svg {
@@ -1198,13 +1225,40 @@ body.no-scroll {
     height: 38px;
   }
   
+  /* Fix dark mode positioning for mobile */
   [data-theme="dark"] .toggle-knob {
-    transform: translateY(-45px); /* Adjusted for smaller toggle */
+    transform: translateY(-40px); /* Reduced from -45px to -40px for better positioning */
   }
   
   .theme-toggle svg {
     width: 20px;
     height: 20px;
+  }
+  
+  .home-btn {
+    right: 20px;
+  }
+}
+
+/* Add specific fixes for very small screens */
+@media (max-width: 480px) {
+  .theme-toggle {
+    height: 80px; /* Even shorter for very small screens */
+  }
+  
+  .toggle-knob {
+    width: 34px;
+    height: 34px;
+  }
+  
+  /* Further adjust for very small screens */
+  [data-theme="dark"] .toggle-knob {
+    transform: translateY(-36px); /* Even less movement for tiny screens */
+  }
+  
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
   }
   
   .home-btn {

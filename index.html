@@ -472,7 +472,7 @@
     <div class="hero-content">
       <div class="hero-text-container glass">
         <h1 class="fade-in">Elevate Your Digital Presence Beyond Expectations</h1>
-        <p class="lead fade-in delay-1">
+        <p class="lead fade-in delay-1" style="text-align: center !important;">
           Webora is a Dubai-based creative web agency. We build sleek, modern websites with stunning design and effortless user experience. Simple. Smart. Effective.
         </p>
         <div class="fade-in delay-2" style="margin-top: 3rem;">
@@ -757,11 +757,185 @@
   
   <!-- Direct Network Animation Script -->
   <script>
-    // Optimized network animation with enhanced visibility and scroll-reactive vertical movement
+    // Enhanced network animation with performance detection and optimization
     (function() {
       const canvas = document.getElementById('network-canvas');
       if (!canvas) return;
       
+      // Performance detection variables
+      let performanceScore = 0;
+      let isLowPerformanceDevice = false;
+      let animationEnabled = true;
+      let frameCount = 0;
+      let fpsHistory = [];
+      let lastPerformanceCheck = Date.now();
+      let initialPerformanceTest = true;
+      
+      // Device capability detection
+      function detectDeviceCapabilities() {
+        let score = 100;
+        
+        // Check device memory (if available)
+        if ('deviceMemory' in navigator) {
+          const memory = navigator.deviceMemory;
+          if (memory <= 2) score -= 40;
+          else if (memory <= 4) score -= 20;
+          else if (memory <= 8) score -= 10;
+        }
+        
+        // Check hardware concurrency (CPU cores)
+        const cores = navigator.hardwareConcurrency || 2;
+        if (cores <= 2) score -= 30;
+        else if (cores <= 4) score -= 15;
+        
+        // Check screen resolution and pixel density
+        const pixelRatio = window.devicePixelRatio || 1;
+        const screenArea = window.screen.width * window.screen.height;
+        
+        if (pixelRatio > 2 && screenArea > 2073600) score -= 20; // High DPI + large screen
+        if (screenArea < 786432) score -= 15; // Small screen (likely mobile)
+        
+        // Check if user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          score -= 50;
+        }
+        
+        // Check connection type (if available)
+        if ('connection' in navigator) {
+          const connection = navigator.connection;
+          if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+            score -= 30;
+          } else if (connection.effectiveType === '3g') {
+            score -= 15;
+          }
+        }
+        
+        // Check if running on mobile/tablet
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) score -= 25;
+        
+        // Check battery status (if available)
+        if ('getBattery' in navigator) {
+          navigator.getBattery().then(function(battery) {
+            if (!battery.charging && battery.level < 0.2) {
+              score -= 20;
+              checkPerformanceThreshold();
+            }
+          });
+        }
+        
+        return Math.max(0, score);
+      }
+      
+      // FPS monitoring
+      function monitorFPS() {
+        frameCount++;
+        const now = Date.now();
+        
+        if (now - lastPerformanceCheck >= 2000) { // Check every 2 seconds
+          const fps = (frameCount * 1000) / (now - lastPerformanceCheck);
+          fpsHistory.push(fps);
+          
+          // Keep only last 5 measurements
+          if (fpsHistory.length > 5) {
+            fpsHistory.shift();
+          }
+          
+          // Calculate average FPS
+          const avgFPS = fpsHistory.reduce((sum, f) => sum + f, 0) / fpsHistory.length;
+          
+          // Adjust performance score based on FPS
+          if (avgFPS < 20) performanceScore -= 15;
+          else if (avgFPS < 30) performanceScore -= 10;
+          else if (avgFPS < 45) performanceScore -= 5;
+          
+          // Initial performance test after first few seconds
+          if (initialPerformanceTest && fpsHistory.length >= 3) {
+            initialPerformanceTest = false;
+            checkPerformanceThreshold();
+          }
+          
+          // Continuous monitoring for performance drops
+          if (avgFPS < 15 && animationEnabled) {
+            console.log('Performance degradation detected, disabling particles');
+            disableAnimation();
+          }
+          
+          frameCount = 0;
+          lastPerformanceCheck = now;
+        }
+      }
+      
+      // Check if we should disable animation
+      function checkPerformanceThreshold() {
+        isLowPerformanceDevice = performanceScore < 40;
+        
+        if (isLowPerformanceDevice && animationEnabled) {
+          console.log(`Low performance detected (score: ${performanceScore}), disabling particles`);
+          disableAnimation();
+        }
+      }
+      
+      // Disable animation for low performance devices
+      function disableAnimation() {
+        animationEnabled = false;
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        
+        // Clear canvas
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Hide canvas to save resources
+        canvas.style.display = 'none';
+        
+        // Show performance notice (optional)
+        showPerformanceNotice();
+      }
+      
+      // Show subtle performance notice
+      function showPerformanceNotice() {
+        // Only show notice in console to avoid UI clutter
+        console.log('🔋 Background animation disabled for better performance');
+        
+        // Optional: Add a subtle indicator in the UI
+        const indicator = document.createElement('div');
+        indicator.style.cssText = `
+          position: fixed;
+          bottom: 10px;
+          left: 10px;
+          font-size: 12px;
+          opacity: 0.5;
+          color: var(--text-secondary);
+          pointer-events: none;
+          z-index: 1;
+          font-family: 'Poppins', sans-serif;
+        `;
+        indicator.textContent = '🔋 Optimized for performance';
+        document.body.appendChild(indicator);
+        
+        // Remove indicator after 5 seconds
+        setTimeout(() => {
+          if (indicator.parentNode) {
+            indicator.parentNode.removeChild(indicator);
+          }
+        }, 5000);
+      }
+      
+      // Initialize performance detection
+      performanceScore = detectDeviceCapabilities();
+      checkPerformanceThreshold();
+      
+      // If low performance detected immediately, don't start animation
+      if (isLowPerformanceDevice) {
+        console.log('Low performance device detected, skipping particle animation');
+        canvas.style.display = 'none';
+        showPerformanceNotice();
+        return;
+      }
+      
+      // Rest of the existing animation code...
       const ctx = canvas.getContext('2d');
       const particles = [];
       let animationId;
@@ -782,10 +956,6 @@
         top: -CULL_BUFFER,
         bottom: window.innerHeight + CULL_BUFFER
       };
-      
-      // Performance monitoring
-      let frameCount = 0;
-      let lastPerformanceCheck = Date.now();
       
       // Smooth interpolation function
       function lerp(start, end, factor) {
@@ -824,11 +994,17 @@
         canvas.style.pointerEvents = 'none';
       }
       
-      // Optimized particle creation
+      // Optimized particle creation with performance scaling
       function createParticles() {
         particles.length = 0;
-        const baseCount = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 18000)); // Increased particle count
-        const connectedParticleCount = Math.max(45, baseCount); // More connected particles
+        
+        // Scale particle count based on performance score
+        let particleMultiplier = 1;
+        if (performanceScore < 60) particleMultiplier = 0.7;
+        if (performanceScore < 50) particleMultiplier = 0.5;
+        
+        const baseCount = Math.min(90 * particleMultiplier, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+        const connectedParticleCount = Math.max(45 * particleMultiplier, baseCount);
         const unconnectedParticleCount = Math.floor(connectedParticleCount * 0.15);
         const totalParticleCount = connectedParticleCount + unconnectedParticleCount;
         
@@ -850,15 +1026,15 @@
             targetY: y,
             vx: (Math.random() - 0.5) * 0.15,
             vy: (Math.random() - 0.5) * 0.15,
-            radius: Math.random() * 1.8 + 0.8, // Larger particles for better visibility
+            radius: Math.random() * 1.8 + 0.8,
             originalRadius: Math.random() * 1.8 + 0.8,
             pulse: Math.random() * Math.PI * 2,
             pulseSpeed: 0.008 + Math.random() * 0.008,
-            glowIntensity: Math.random() * 0.4 + 0.4, // Increased glow intensity
-            isGlowing: Math.random() > 0.7, // More particles glow initially
+            glowIntensity: Math.random() * 0.4 + 0.4,
+            isGlowing: Math.random() > 0.7,
             isConnected: i < connectedParticleCount,
-            scrollSensitivity: 0.4 + Math.random() * 0.6, // Higher scroll sensitivity
-            verticalOffset: 0, // Track vertical offset from scroll
+            scrollSensitivity: 0.4 + Math.random() * 0.6,
+            verticalOffset: 0,
             isVisible: true,
             lastVisible: true
           });
@@ -877,10 +1053,10 @@
         
         const isDark = currentTheme === 'dark';
         cachedColors = {
-          particle: isDark ? 'rgba(255, 255, 255, 1.0)' : 'rgba(0, 0, 0, 0.9)', // Black particles in light mode
-          particleGlow: isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)', // Black glow in light mode
-          line: isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.3)', // Black lines in light mode
-          lineGlow: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.35)' // Black line glow in light mode
+          particle: isDark ? 'rgba(255, 255, 255, 1.0)' : 'rgba(0, 0, 0, 0.9)',
+          particleGlow: isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)',
+          line: isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.3)',
+          lineGlow: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.35)'
         };
         lastTheme = currentTheme;
         return cachedColors;
@@ -891,7 +1067,6 @@
         const currentScrollY = window.pageYOffset;
         const scrollDelta = currentScrollY - lastScrollY;
         
-        // Reduced lerp factor for smoother initial velocity
         scrollVelocity = lerp(scrollVelocity, scrollDelta * 0.08, 0.08);
         
         particles.forEach(particle => {
@@ -903,8 +1078,7 @@
           particle.targetY += verticalScrollEffect;
           particle.verticalOffset += verticalScrollEffect * 0.5;
           
-          // Add more friction to vertical offset
-          particle.verticalOffset *= 0.85; // Increased friction (was 0.95)
+          particle.verticalOffset *= 0.85;
           
           const extendedWidth = window.innerWidth + 200;
           const extendedHeight = window.innerHeight + 200;
@@ -918,10 +1092,12 @@
         lastScrollY = currentScrollY;
       }
       
-      // Optimized animation loop with enhanced visibility
+      // Optimized animation loop with performance monitoring
       function animate(currentTime) {
-        if (!isVisible) {
-          animationId = requestAnimationFrame(animate);
+        if (!isVisible || !animationEnabled) {
+          if (animationEnabled) {
+            animationId = requestAnimationFrame(animate);
+          }
           return;
         }
         
@@ -933,44 +1109,29 @@
         const deltaTime = currentTime - lastFrameTime;
         lastFrameTime = currentTime;
         
-        // Decay scroll velocity
-        scrollVelocity *= 0.85; // More friction (was 0.95)
+        // Monitor FPS for performance detection
+        monitorFPS();
         
-        // Performance monitoring
-        frameCount++;
-        if (currentTime - lastPerformanceCheck > 5000) {
-          const fps = frameCount / 5;
-          if (fps < 25 && particles.length > 20) {
-            particles.splice(0, Math.floor(particles.length * 0.05));
-          }
-          frameCount = 0;
-          lastPerformanceCheck = currentTime;
-        }
+        scrollVelocity *= 0.85;
         
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         const colors = getColors();
         
-        // Smooth interpolation factor
         const lerpFactor = Math.min(deltaTime / 16.67 * 0.08, 0.15);
         
-        // Arrays for visible particles and connections
         const visibleParticles = [];
         const connectionsToRender = [];
         
         particles.forEach((particle, i) => {
-          // Smooth interpolation towards target position
           particle.x = lerp(particle.x, particle.targetX, lerpFactor);
           particle.y = lerp(particle.y, particle.targetY, lerpFactor);
           
-          // Update target positions with velocity and scroll influence
           const timeMultiplier = deltaTime / 16.67;
           particle.targetX += particle.vx * timeMultiplier;
           particle.targetY += particle.vy * timeMultiplier;
           
-          // Add continuous vertical drift based on accumulated scroll
           particle.targetY += particle.verticalOffset * 0.02;
           
-          // Smooth boundary bouncing
           if (particle.targetX < 0 || particle.targetX > window.innerWidth) {
             particle.vx *= -0.95;
             particle.targetX = Math.max(0, Math.min(window.innerWidth, particle.targetX));
@@ -978,28 +1139,24 @@
           if (particle.targetY < 0 || particle.targetY > window.innerHeight) {
             particle.vy *= -0.95;
             particle.targetY = Math.max(0, Math.min(window.innerHeight, particle.targetY));
-            particle.verticalOffset *= 0.8; // Reduce vertical offset when hitting boundaries
+            particle.verticalOffset *= 0.8;
           }
           
-          // Check visibility
           particle.isVisible = isParticleVisible(particle);
           
-          // Skip invisible particles for performance
           if (!particle.isVisible) {
             particle.lastVisible = false;
             return;
           }
           
-          // Enhanced pulsing effect
           particle.pulse += particle.pulseSpeed * timeMultiplier;
-          const currentRadius = particle.originalRadius + Math.sin(particle.pulse) * 0.4; // Larger pulse amplitude
+          const currentRadius = particle.originalRadius + Math.sin(particle.pulse) * 0.4;
           
-          // Smooth mouse interaction
           const dx = mouseX - particle.x;
           const dy = mouseY - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 90) { // Larger interaction area
+          if (distance < 90) {
             const force = (90 - distance) / 90;
             const pushX = (dx / distance) * force * 0.25 * timeMultiplier;
             const pushY = (dy / distance) * force * 0.25 * timeMultiplier;
@@ -1018,7 +1175,6 @@
             index: i
           });
           
-          // Only calculate connections for connected particles within viewport
           if (particle.isConnected) {
             for (let j = i + 1; j < particles.length; j++) {
               const other = particles[j];
@@ -1028,7 +1184,7 @@
               const dy = particle.y - other.y;
               const distance = Math.sqrt(dx * dx + dy * dy);
               
-              if (distance < 140) { // Increased connection distance
+              if (distance < 140) {
                 connectionsToRender.push({
                   from: particle,
                   to: other,
@@ -1043,17 +1199,16 @@
           particle.lastVisible = true;
         });
         
-        // Render connections first with enhanced visibility
         connectionsToRender.forEach(conn => {
           if (conn.glowing) {
             ctx.save();
             ctx.shadowColor = colors.lineGlow;
-            ctx.shadowBlur = 8; // Increased blur for better glow
+            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.moveTo(conn.from.x, conn.from.y);
             ctx.lineTo(conn.to.x, conn.to.y);
             ctx.strokeStyle = colors.lineGlow.replace(/[\d\.]+\)/, `${0.5 * conn.opacity})`);
-            ctx.lineWidth = 1.4; // Thicker glowing lines
+            ctx.lineWidth = 1.4;
             ctx.stroke();
             ctx.restore();
           }
@@ -1062,16 +1217,15 @@
           ctx.moveTo(conn.from.x, conn.from.y);
           ctx.lineTo(conn.to.x, conn.to.y);
           ctx.strokeStyle = colors.line.replace(/[\d\.]+\)/, `${0.35 * conn.opacity})`);
-          ctx.lineWidth = 0.8; // Thicker regular lines
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         });
         
-        // Render visible particles with enhanced visibility
         visibleParticles.forEach(({ particle, currentRadius, isGlowing }) => {
           if (isGlowing) {
             ctx.save();
             ctx.shadowColor = colors.particleGlow;
-            ctx.shadowBlur = 12; // Increased glow effect
+            ctx.shadowBlur = 12;
             ctx.beginPath();
             ctx.arc(particle.x, particle.y, currentRadius * 1.4, 0, Math.PI * 2);
             ctx.fillStyle = colors.particleGlow;
@@ -1088,18 +1242,18 @@
         animationId = requestAnimationFrame(animate);
       }
       
-      // Visibility API for performance
       document.addEventListener('visibilitychange', () => {
         isVisible = !document.hidden;
       });
       
-      // Throttled event listeners
       let resizeTimeout;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-          resizeCanvas();
-          createParticles();
+          if (animationEnabled) {
+            resizeCanvas();
+            createParticles();
+          }
         }, 150);
       });
       
@@ -1108,12 +1262,10 @@
         mouseY = e.clientY;
       });
       
-      // Enhanced scroll handler for velocity tracking
-      let scrollTimeout;
       let lastScrollTime = 0;
       window.addEventListener('scroll', () => {
         const currentTime = Date.now();
-        if (currentTime - lastScrollTime > 16) { // Throttle to ~60fps
+        if (currentTime - lastScrollTime > 16 && animationEnabled) {
           handleScroll();
           lastScrollTime = currentTime;
         }
@@ -1121,14 +1273,15 @@
       
       lastScrollY = window.pageYOffset;
       
-      // Initialize
-      resizeCanvas();
-      createParticles();
-      requestAnimationFrame(animate);
+      // Initialize only if animation is enabled
+      if (animationEnabled) {
+        resizeCanvas();
+        createParticles();
+        requestAnimationFrame(animate);
+        
+        console.log(`Network animation started with ${particles.length} particles (Performance score: ${performanceScore})`);
+      }
       
-      console.log('Enhanced network animation started with', particles.length, 'particles and scroll-reactive movement');
-      
-      // Theme change observer
       let themeTimeout;
       const observer = new MutationObserver(() => {
         clearTimeout(themeTimeout);
